@@ -1,0 +1,7 @@
+6
+wall_mossy_stone_brick.sprite
+wall_brick_classic.sprite
+flower_butterfly.sprite
+obelisk_mossy.sprite
+robot_ugly.sprite
+fireball.sprite

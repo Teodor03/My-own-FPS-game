@@ -1,0 +1,37 @@
+# depslib dependency file v1.0
+1591887886 source:c:\users\teo03\documents\programi cpp\proekt inf uchiliste\my_fps_shooter\fps_shooter_main.cpp
+	<iostream>
+	<chrono>
+	<cmath>
+	<vector>
+	<list>
+	<thread>
+	<string>
+	<cstdio>
+	<utility>
+	<queue>
+	<algorithm>
+	<windows.h>
+	"my_extra_math.h"
+	"colour_enum.h"
+	"sprite.h"
+	"game_map.h"
+	"objects.h"
+
+1588239797 c:\users\teo03\documents\programi cpp\proekt inf uchiliste\my_fps_shooter\my_extra_math.h
+
+1588239982 c:\users\teo03\documents\programi cpp\proekt inf uchiliste\my_fps_shooter\colour_enum.h
+
+1588268434 c:\users\teo03\documents\programi cpp\proekt inf uchiliste\my_fps_shooter\sprite.h
+	<cstdio>
+
+1591878035 c:\users\teo03\documents\programi cpp\proekt inf uchiliste\my_fps_shooter\game_map.h
+	<cstdio>
+	<algorithm>
+	<queue>
+
+1593434309 c:\users\teo03\documents\programi cpp\proekt inf uchiliste\my_fps_shooter\objects.h
+	"game_map.h"
+	"sprite.h"
+	<cmath>
+
