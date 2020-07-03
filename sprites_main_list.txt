@@ -1,3 +1,0 @@
-2
-wall_mossy_stone_brick.sprite
-wall_brick_classic.sprite
