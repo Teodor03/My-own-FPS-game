@@ -1,0 +1,167 @@
+//    void launch_game(){
+//    load_sprites();
+//    char m_x_file_name [100]="first_map.game_map";
+//    curr_map.load_from_file(m_x_file_name);
+//    double posX = 4.0, posY = 4.0;  //x and y start position
+//    double dirX = -1, dirY = 0; //initial direction vector
+//    double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
+//
+//    double time = 0; //time of current frame
+//    double oldTime = 0; //time of previous frame
+//
+//        auto t1=chrono::system_clock::now();
+//        auto t2=chrono::system_clock::now();
+//
+//    while(true){
+//
+//        for(int x=0;x<screen_x;x++){
+//            double cameraX = 2 * x / double(screen_x) - 1; //x-coordinate in camera space
+//            double rayDirX = dirX + planeX * cameraX;
+//            double rayDirY = dirY + planeY * cameraX;
+//
+//        //which box of the map we're in
+//        int mapX = int(posX);
+//        int mapY = int(posY);
+//
+//        //length of ray from current position to next x or y-side
+//        double sideDistX;
+//        double sideDistY;
+//
+//        //length of ray from one x or y-side to next x or y-side
+//        double deltaDistX = (rayDirY == 0) ? 0 : ((rayDirX == 0) ? 1 : abs(1 / rayDirX));
+//        double deltaDistY = (rayDirX == 0) ? 0 : ((rayDirY == 0) ? 1 : abs(1 / rayDirY));
+//        double perpWallDist;
+//
+//        //what direction to step in x or y-direction (either +1 or -1)
+//        int stepX;
+//        int stepY;
+//
+//        int hit = 0; //was there a wall hit?
+//        int side;
+//
+//      if (rayDirX < 0)
+//      {
+//        stepX = -1;
+//        sideDistX = (posX - mapX) * deltaDistX;
+//      }
+//      else
+//      {
+//        stepX = 1;
+//        sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+//      }
+//      if (rayDirY < 0)
+//      {
+//        stepY = -1;
+//        sideDistY = (posY - mapY) * deltaDistY;
+//      }
+//      else
+//      {
+//        stepY = 1;
+//        sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+//      }
+//
+//
+//        while (hit == 0)
+//      {
+//        //jump to next map square, OR in x-direction, OR in y-direction
+//        if (sideDistX < sideDistY)
+//        {
+//          sideDistX += deltaDistX;
+//          mapX += stepX;
+//          side = 0;
+//        }
+//        else
+//        {
+//          sideDistY += deltaDistY;
+//          mapY += stepY;
+//          side = 1;
+//        }
+//        //Check if ray has hit a wall
+//        if (curr_map.get_symbol(mapX,mapY)=='#') hit = 1;
+//      }
+//
+//        if (side == 0) perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
+//        else           perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
+//
+//        //Calculate height of line to draw on screen
+//      int lineHeight = (int)(screen_y / perpWallDist);
+//
+//      //calculate lowest and highest pixel to fill in current stripe
+//      int drawStart = -lineHeight / 2 + screen_y / 2;
+//      if(drawStart < 0)drawStart = 0;
+//      int drawEnd = lineHeight / 2 + screen_y / 2;
+//      if(drawEnd >= screen_y)drawEnd = screen_y - 1;
+//
+//      float wallX; //where exactly the wall was hit
+//      if (side == 0) wallX = posY + perpWallDist * rayDirY;
+//      else           wallX = posX + perpWallDist * rayDirX;
+//      wallX -= ((float)((int)(wallX)));
+//        float wallY;
+//        for(int y=0;y<screen_y;y++){
+//            if(y<drawStart){
+//                Draw(x,y,0x0020,(bg_col=BG_CYAN) | (bg_col=BG_DARK_GREEN));
+//            }else if(y<drawEnd){
+//                wallY=(float)(y-drawStart) / (float)(drawStart-drawStart);
+//                Draw(x,y,0x0020,sprite_mem.at(curr_map.get_num(x,y)).take_sample(abs(wallX),wallY));
+//            }else{
+//                Draw(x,y,0x0020,(bg_col=BG_DARK_GREEN) | (bg_col=BG_DARK_GREEN));
+//            }
+//        }
+//        }
+//
+//            //timing
+//        t2 = chrono::system_clock::now();
+//        chrono::duration<float> el_time = t2-t1;
+//        t1=t2;
+//        double frameTime=el_time.count();
+//
+//            //FPS limit
+//            if(time_game_loop<(1.0/40.0)){
+//                std::this_thread::sleep_for (std::chrono::milliseconds((int)((1000.0/40.0)-time_game_loop*1000)));
+//            }
+//
+//
+//        refresh_screen();
+//
+//        //speed modifiers
+//        double moveSpeed = frameTime * 2.0; //the constant value is in squares/second
+//        double rotSpeed = frameTime * 3.0;
+//    if (GetAsyncKeyState((unsigned short)'W') & 0x8000)
+//    {
+//      if(curr_map.get_symbol(int(posX + dirX * moveSpeed),int(posY)) !='#') posX += dirX * moveSpeed;
+//      if(curr_map.get_symbol(int(posX),int(posY + dirY * moveSpeed)) !='#') posY += dirY * moveSpeed;
+//    }
+//    //move backwards if no wall behind you
+//    if (GetAsyncKeyState((unsigned short)'S') & 0x8000)
+//    {
+//      if(curr_map.get_symbol(int(posX - dirX * moveSpeed),int(posY)) !='#') posX -= dirX * moveSpeed;
+//      if(curr_map.get_symbol(int(posX),int(posY - dirY * moveSpeed)) =='#') posY -= dirY * moveSpeed;
+//    }
+//    //rotate to the right
+//    if (GetAsyncKeyState((unsigned short)'D') & 0x8000)
+//    {
+//      //both camera direction and camera plane must be rotated
+//      double oldDirX = dirX;
+//      dirX = dirX * cos(-rotSpeed) - dirY * sin(-rotSpeed);
+//      dirY = oldDirX * sin(-rotSpeed) + dirY * cos(-rotSpeed);
+//      double oldPlaneX = planeX;
+//      planeX = planeX * cos(-rotSpeed) - planeY * sin(-rotSpeed);
+//      planeY = oldPlaneX * sin(-rotSpeed) + planeY * cos(-rotSpeed);
+//    }
+//    //rotate to the left
+//    if (GetAsyncKeyState((unsigned short)'A') & 0x8000)
+//    {
+//      //both camera direction and camera plane must be rotated
+//      double oldDirX = dirX;
+//      dirX = dirX * cos(rotSpeed) - dirY * sin(rotSpeed);
+//      dirY = oldDirX * sin(rotSpeed) + dirY * cos(rotSpeed);
+//      double oldPlaneX = planeX;
+//      planeX = planeX * cos(rotSpeed) - planeY * sin(rotSpeed);
+//      planeY = oldPlaneX * sin(rotSpeed) + planeY * cos(rotSpeed);
+//    }
+//
+//    }
+//
+//
+//        return;
+//    }
